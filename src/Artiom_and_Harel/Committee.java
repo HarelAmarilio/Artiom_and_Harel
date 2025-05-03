@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Committee {
     private String name;
-    private Lecturer[] lecturers = new Lecturer[1];
+    private Lecturer[] lecturers=new Lecturer[1];
     private Lecturer headOfCommittee; // Must be a Dr + will not appear in the lectures
 
 
@@ -54,10 +54,25 @@ public class Committee {
 
     @Override
     public String toString() {
+        String lecturersNames = "";
+
+        if (lecturers != null) {
+            for (Lecturer lecturer : lecturers) {
+                if (lecturer == null){continue;}
+                if (!lecturer.equals(headOfCommittee)) {
+                    if (!lecturersNames.isEmpty()) {
+                        lecturersNames += ", ";
+                    }
+                    lecturersNames += lecturer.getFullName();
+                }
+            }
+        }
+
         return "Committee{" +
                 "name='" + name + '\'' +
-                ", lecturers=" + Arrays.toString(lecturers) +
-                ", headOfCommittee=" + headOfCommittee +
+                ", lecturers=" + lecturersNames +
                 '}';
     }
 }
+
+//עבור כל ועדה יש לשמור את שמה, את רשימת המרצים שחברים בה וכן המרצה שהוא יו"ר הועדה. יו"ר הועדה חייב להיות מרצה שהוא ד"ר לפחות, יו"ר הועדה לא יופיע ברשימת המרצים החברים בוועדה.

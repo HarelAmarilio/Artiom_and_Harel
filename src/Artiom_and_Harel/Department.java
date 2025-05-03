@@ -66,7 +66,7 @@ public class Department {
 
         return "Department{" +
                 "Name='" + Name + '\'' +
-                ", number_of_students=" + number_of_students +
+                ", number of students=" + number_of_students +
                 ", lecturers=" + lecturersNames +
                 '}';
     }
