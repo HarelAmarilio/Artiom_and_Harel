@@ -1,16 +1,16 @@
 package Artiom_and_Harel;
-import java.util.Scanner;
 import java.util.Objects;
 
 public class Lecturer {
     private String FullName;
     private int ID;
-    private String DegreeType;
+    private DgreeNames DegreeType;
     private String DegreeName;
     private double Salary;
     private String department;
+    private Committee[] InCommittee=new Committee[1];
 
-    public Lecturer(String fullName, int ID, String degreeType, String degreeName, double salary, String department) {
+    public Lecturer(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department) {
         setFullName(fullName);
         setID(ID);
         setDegreeType(degreeType);
@@ -19,9 +19,18 @@ public class Lecturer {
         setDepartment(department);
     }
     //if the lecturer doesn't have a department yet
-    public Lecturer(String fullName, double salary, String degreeName, String degreeType, int ID) {
+    public Lecturer(String fullName, double salary, String degreeName, DgreeNames degreeType, int ID) {
         this(fullName,ID,degreeType,degreeName,salary,null);
     }
+
+    public Committee[] getInCommittee() {
+        return InCommittee;
+    }
+
+    public void setInCommittee(Committee[] committee) {
+        InCommittee = committee;
+    }
+
     public String getDepartment() {
         return department;
     }
@@ -35,11 +44,6 @@ public class Lecturer {
     }
 
     public void setSalary(double salary) {
-        Scanner scan = new Scanner(System.in);
-        while(salary == 0){
-            System.out.println("The Salary is not valid please enter again");
-            salary=scan.nextDouble();
-        }
         this.Salary = salary;
     }
 
@@ -48,24 +52,14 @@ public class Lecturer {
     }
 
     public void setDegreeName(String degreeName) {
-        Scanner scan = new Scanner(System.in);
-        while(degreeName == null || degreeName.isEmpty()) {
-            System.out.println("The degree name is not valid please enter again");
-            degreeName = scan.nextLine();
-        }
         this.DegreeName = degreeName;
     }
 
-    public String getDegreeType() {
+    public DgreeNames getDegreeType() {
         return DegreeType;
     }
 
-    public void setDegreeType(String degreeType) {
-        Scanner scan = new Scanner(System.in);
-        while(degreeType == null || degreeType.isEmpty() || !(degreeType.equals("Dr") || degreeType.equals("B.A") || degreeType.equals("M.A")|| degreeType.equals("professor"))) {
-            System.out.println("The degree type is not valid please enter again");
-            degreeType = scan.nextLine();
-        }
+    public void setDegreeType(DgreeNames degreeType) {
         this.DegreeType = degreeType;
     }
 
@@ -74,11 +68,6 @@ public class Lecturer {
     }
 
     public void setID(int ID) {
-        Scanner scan = new Scanner(System.in);
-        while(ID == 0){
-            System.out.println("The ID is not valid please enter again");
-            ID =scan.nextInt();
-        }
         this.ID = ID;
     }
 
@@ -87,11 +76,6 @@ public class Lecturer {
     }
 
     public void setFullName(String fullName) {
-        Scanner scan = new Scanner(System.in);
-        while(fullName == null || fullName.isEmpty()) {
-            System.out.println("The name is not valid please enter again");
-            fullName = scan.nextLine();
-        }
         this.FullName = fullName;
     }
 
@@ -109,13 +93,27 @@ public class Lecturer {
 
     @Override
     public String toString() {
+        String committeessNames = "";
+
+        if (InCommittee != null) {
+            for (Committee committee : InCommittee) {
+                if (committee == null){continue;}
+                if (!committeessNames.isEmpty()) {
+                    committeessNames += ", ";
+                }
+                committeessNames += committee.getName();
+
+            }
+        }
+
         return
-                "FullName='" + FullName + '\'' +
+                "Full Name='" + FullName + '\'' +
                         ", ID=" + String.format("%09d",ID) +
-                        ", DegreeType='" + DegreeType + '\'' +
-                        ", DegreeName='" + DegreeName + '\'' +
+                        ", Degree Type='" + DegreeType + '\'' +
+                        ", Degree Name='" + DegreeName + '\'' +
                         ", Salary=" + Salary +
-                        ",department='" + department + '\''+ '}';
+                        ",department='" + department + '\''+
+                        ",committees='" + committeessNames + '}';
 
     }
 }
