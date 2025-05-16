@@ -32,9 +32,11 @@ public class College_Managment {
                 case 2:
                     System.out.println("Please enter the name of the committee");
                     String committeeName = getName();
-                    while (findByName( committees,committeeName, size_of_committee) != null) {
-                        System.out.println("Please enter a name of another committee");
-                        committeeName = getName();
+                    try {
+                        isExist(findByName(committees,committeeName,size_of_committee),committees,size_of_committee);
+                    }
+                    catch (ObjectExists e) {
+                        System.err.println(e.getMessage());
                     }
                     System.out.println("Please enter the name of the head of the committee");
                     String headOfCommitteeName = getName();
@@ -51,17 +53,13 @@ public class College_Managment {
                 case 3:
                     System.out.println("Please enter committee's name");
                     String committeesName = getName();
-                    while (findByName( committees,committeesName, size_of_committee) == null) {
-                        System.out.println("this committee doesn't exist please enter a name of another committee");
-                        committeesName = getName();
-                    }
                     Committee selectedCommittee= (Committee) findByName(committees,committeesName,size_of_committee);
-
                     System.out.println("Please enter lecturer's name");
                     String lecturersName = getName();
-                    while (findByName( lecturers,lecturersName, size_of_lecturers) == null) {
-                        System.out.println("this Lecturer doesn't exist please enter a name of another lecturer");
-                        lecturersName = getName();
+                    try {
+                        InsertLecturerIntoCommittee((Lecturer) findByName(lecturers,lecturersName,size_of_lecturers), committees, selectedCommittee, size_of_committee);
+                    } catch (ObjectExists e) {
+                        System.err.println(e.getMessage());
                     }
                     Lecturer selectedlecturer=(Lecturer)findByName(lecturers,lecturersName,size_of_lecturers);
 
@@ -73,8 +71,8 @@ public class College_Managment {
                     // Exception in case of lecturer exists in committee
                     try{
                         InsertLecturerIntoCommittee(selectedlecturer,committees,selectedCommittee,size_of_committee);}
-                    catch(LecturerCommitteeException e){
-                        e.getMessage();
+                    catch(ObjectExists e){
+                        System.err.println(e.getMessage());
 
                     }
 
@@ -158,16 +156,20 @@ public class College_Managment {
                     System.out.println("Please enter the name of the lecturer");
                     String LecturerName = getName();
                     //Checking by the id the lecturer exists in our system.
-                    while (findByName(lecturers, LecturerName, size_of_lecturers) == null) {
-                        System.out.println("This lecturer is not in our database. Please enter another name");
-                        LecturerName = getName();
+                    try{
+                        findByName(lecturers,LecturerName,size_of_lecturers);
+                    }
+                    catch(ObjectExists e){
+                        System.err.println(e.getMessage());
                     }
                     Lecturer selectedLecturer = (Lecturer)findByName(lecturers, LecturerName, size_of_lecturers);
                     System.out.println("Please enter the name of the department");
                     String department = getName();
-                    if (isExist(selectedLecturer, departments, size_of_departments)) {
-                        System.out.println("Already assigned in the department!");
-                        break;
+                    try{
+                        isExist(selectedLecturer, departments, size_of_departments);
+                    }
+                    catch(Exception e){
+                        System.out.println(e.getMessage());
                     }
                     // Adding the lecturer to the selected department.
                     InsertLecturerIntoDepartment(selectedLecturer, departments, department, size_of_departments);
@@ -195,7 +197,7 @@ public class College_Managment {
 
         return name;
     }
-    public static Object findByName(Object [] details, String name,int size) {
+    public static Object findByName(Object [] details, String name,int size) throws {
         if(details instanceof Lecturer[]) {
             for (int i = 0; i < size; i++) {
                 if ((lecturers[i]!=null) && lecturers[i].getFullName().equals(name)) {
@@ -222,22 +224,13 @@ public class College_Managment {
     }
 
     // A function that checks if something exists already in the array by object
-    public static boolean isExist(Object obj,Object [] details,int size) {
-        if (details instanceof Department[] && obj instanceof Lecturer) {
-            for(int i=0;i<size_of_departments;i++){
-                if(departments[i].getName().equals(((Lecturer) obj).getDepartment())){
-                    return true;
-                }
-            }
-            return false;
-        }
+    public static void isExist(Object obj,Object [] details,int size) throws ObjectExists{
         for(int i=0;i<size;i++){
             if(details[i]!=null && details[i].equals(obj)) {
-                System.out.println("Already exists!");
-                return true;
+            throw new ObjectExists("Already exists!");
+
             }
         }
-        return false;
     }
     // The function updates the actual size of the array in case input has been made
     public static Object[] add(Object obj, Object[] details, int size) {
@@ -343,10 +336,10 @@ public class College_Managment {
             }
         }
     }
-    public static void InsertLecturerIntoCommittee(Lecturer selctedlecturer,Committee[] committees,Committee selctedCommittee,int size_of_committee) throws LecturerCommitteeException{
+    public static void InsertLecturerIntoCommittee(Lecturer selctedlecturer,Committee[] committees,Committee selctedCommittee,int size_of_committee) throws ObjectExists{
         for(int i=0;i<selctedlecturer.getInCommittee().length;i++) {
             if (selctedlecturer.getInCommittee()[i].equals(selctedCommittee)) {
-                throw new LecturerCommitteeException("Lecturer already in committee");
+                throw new ObjectExists("Lecturer already in committee");
             }
         }
         for(int i=0;i<size_of_committee;i++){
