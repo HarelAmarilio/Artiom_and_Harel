@@ -9,7 +9,7 @@ public class College_Managment {
     private static Department[] departments = new Department[1];
     private static int size_of_departments = 0;
 
-    public void print_Menu() {
+    public void print_Menu(){
         PrintRealMenu();
         Scanner scan = new Scanner(System.in);
         System.out.println("Please select an option: If you want to exit the system, enter 0");
@@ -70,7 +70,14 @@ public class College_Managment {
                         lecturersName = getName();
                         selectedlecturer=(Lecturer)findByName(lecturers,lecturersName,size_of_lecturers);
                     }
-                    InsertLecturerIntoCommittee(selectedlecturer,committees,selectedCommittee,size_of_committee);
+                    // Exception in case of lecturer exists in committee
+                    try{
+                        InsertLecturerIntoCommittee(selectedlecturer,committees,selectedCommittee,size_of_committee);}
+                    catch(LecturerCommitteeException e){
+                        e.getMessage();
+
+                    }
+
                     break;
 
                 case 4:
@@ -336,7 +343,12 @@ public class College_Managment {
             }
         }
     }
-    public static void InsertLecturerIntoCommittee(Lecturer selctedlecturer,Committee[] committees,Committee selctedCommittee,int size_of_committee){
+    public static void InsertLecturerIntoCommittee(Lecturer selctedlecturer,Committee[] committees,Committee selctedCommittee,int size_of_committee) throws LecturerCommitteeException{
+        for(int i=0;i<selctedlecturer.getInCommittee().length;i++) {
+            if (selctedlecturer.getInCommittee()[i].equals(selctedCommittee)) {
+                throw new LecturerCommitteeException("Lecturer already in committee");
+            }
+        }
         for(int i=0;i<size_of_committee;i++){
             if(selctedCommittee.equals(committees[i])){
                 committees[i].setLecturers((Lecturer[])add(selctedlecturer, committees[i].getLecturers(),IndexOfFirstNull(committees[i].getLecturers())));
