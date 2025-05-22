@@ -21,6 +21,9 @@ public class College_Managment {
                 case 1:
                     System.out.println("Please enter lecturer's info");
                     Lecturer lecturer = LecturerBuild();
+                    while(lecturer==null){
+                        lecturer = LecturerBuild();
+                    }
                     lecturers = (Lecturer[]) add(lecturer, lecturers, size_of_lecturers);
                     size_of_lecturers++;
                     // Adding the lecturer into the requested department
@@ -32,69 +35,119 @@ public class College_Managment {
                 case 2:
                     System.out.println("Please enter the name of the committee");
                     String committeeName = getName();
+                    try{
+                        doesExistByName(committees,committeeName,size_of_committee);
+                    }catch (ObjectExists e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Please enter the name of the head of the committee");
                     String headOfCommitteeName = getName();
-                        // Checking if the requested head of committee stands with the terms
-                        try {
-                            isHeadCommitteeDr(headOfCommitteeName, committeeName,2);
-                        } catch (LecturerCommitteeException e) {
-                            System.err.println(e.getMessage());
-                            break;
-                        }
+                    Lecturer HeadOfCommittee=null;
+                    try{
+                        HeadOfCommittee=(Lecturer)findByName(lecturers,headOfCommitteeName,size_of_lecturers);
+                    }catch (ObjectNotFoundException e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
+                    // Checking if the requested head of committee stands with the terms
+                    try {
+                        isHeadCommitteeDr(headOfCommitteeName, committeeName);
+                    } catch (LecturerCommitteeException e) {
+                        System.err.println(e.getMessage());
+                        break;
+                    }
 
-
-
+                    Committee newCommittee = new Committee(committeeName,HeadOfCommittee);
+                    committees = (Committee[]) add(newCommittee, committees, size_of_committee);
+                    size_of_committee++;
                     break;
 
                 case 3:
                     System.out.println("Please enter committee's name");
-                    String committeesName = getName();
-                    Committee selectedCommittee= (Committee) findByName(committees,committeesName,size_of_committee);
+                    committeeName = getName();
+                    Committee selectedCommittee =null;
+                    try {
+                        selectedCommittee = (Committee) findByName(committees, committeeName, size_of_committee);
+                    }catch (ObjectNotFoundException e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Please enter lecturer's name");
                     String lecturersName = getName();
+                    Lecturer selectedlecturer=null;
                     try {
-                        InsertLecturerIntoCommittee((Lecturer) findByName(lecturers,lecturersName,size_of_lecturers), committees, selectedCommittee, size_of_committee);
-                    } catch (ObjectExists e) {
+                        selectedlecturer = (Lecturer) findByName(lecturers, lecturersName, size_of_lecturers);
+                    }catch (ObjectNotFoundException e){
                         System.err.println(e.getMessage());
+                        break;
                     }
-                    Lecturer selectedlecturer=(Lecturer)findByName(lecturers,lecturersName,size_of_lecturers);
-
                     while(selectedlecturer.equals(selectedCommittee.getHeadOfCommittee())){
                         System.out.println("The selected lecturer is the head of the committee, please give another name");
                         lecturersName = getName();
-                        selectedlecturer=(Lecturer)findByName(lecturers,lecturersName,size_of_lecturers);
+                        try {
+                            selectedlecturer = (Lecturer) findByName(lecturers, lecturersName, size_of_lecturers);
+                        }catch (ObjectNotFoundException e){
+                            System.err.println(e.getMessage());
+                        }
                     }
-                    // Exception in case of lecturer exists in committee
                     try{
                         InsertLecturerIntoCommittee(selectedlecturer,committees,selectedCommittee,size_of_committee);}
+                    // Exception in case of lecturer exists in committee
                     catch(ObjectExists e){
                         System.err.println(e.getMessage());
-
+                        break;
                     }
-
                     break;
 
                 case 4:
                     System.out.println("Please enter the name of the committee");
-                    committeeName=getName();
+                    committeeName = getName();
+                    Committee changeHead =null;
+                    try{
+                        changeHead = (Committee)findByName(committees,committeeName,size_of_committee);
+                    }catch (ObjectNotFoundException e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Please enter the name of the lecturer you would like to make the head of the committee");
                     headOfCommitteeName = getName();
+                    Lecturer newHeadOfCommittee=null;
+                    try{
+                        newHeadOfCommittee = (Lecturer) findByName(lecturers, headOfCommitteeName, size_of_lecturers);
+                    }catch (ObjectNotFoundException e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     try {
-                        isHeadCommitteeDr(headOfCommitteeName, committeeName,4);
-
+                        isHeadCommitteeDr(headOfCommitteeName, committeeName);
                     } catch (LecturerCommitteeException e) {
                         System.err.println(e.getMessage());
+                        break;
                     }
+                    changeHead.setHeadOfCommittee(newHeadOfCommittee);
                     break;
 
 
                 case 5:
                     System.out.println("Please enter the name of the committee");
                     committeeName=getName();
-                    Committee c=(Committee)findByName(committees,committeeName,size_of_committee);
+                    Committee c=null;
+                    try {
+                        c = (Committee) findByName(committees, committeeName, size_of_committee);
+                    }catch (ObjectNotFoundException e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Please enter the name of the lecturer you would like to remove:)");
                     lecturersName = getName();
-                    Lecturer lecturerRemove=(Lecturer)findByName(lecturers,lecturersName,size_of_lecturers);
+                    Lecturer lecturerRemove= null;
+                    try {
+                        lecturerRemove = (Lecturer) findByName(lecturers, lecturersName, size_of_lecturers);
+                    }catch (ObjectNotFoundException e) {
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     RemoveFromCommittee(lecturerRemove,c.getLecturers(),c);
                     System.out.println("Lecturer has been removed");
                     break;
@@ -102,9 +155,11 @@ public class College_Managment {
                 case 6:
                     System.out.println("Please enter the name of the department");
                     String departmentName = getName();
-                    while (findByName( departments,departmentName, size_of_departments) != null) {
-                        System.out.println("Department name already exists, please enter another name");
-                        departmentName = getName();
+                    try {
+                        doesExistByName(departments, departmentName, size_of_departments);
+                    }catch(ObjectExists e){
+                        System.err.println(e.getMessage());
+                        break;
                     }
                     System.out.println("Please enter the number of students in this department");
                     int number_of_students = scan.nextInt();
@@ -150,15 +205,22 @@ public class College_Managment {
                 case 11:
                     System.out.println("Please enter the name of the lecturer");
                     String LecturerName = getName();
-                    //Checking by the id the lecturer exists in our system.
-                    Lecturer selectedLecturer = (Lecturer)findByName(lecturers, LecturerName, size_of_lecturers);
+                    //Checking by the name the lecturer exists in our system.
+                    Lecturer selectedLecturer = null;
+                    try {
+                        selectedLecturer = (Lecturer) findByName(lecturers, LecturerName, size_of_lecturers);
+                    }catch (ObjectNotFoundException e){
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     System.out.println("Please enter the name of the department");
                     String department = getName();
                     try{
                         isExist(selectedLecturer, departments, size_of_departments);
                     }
-                    catch(Exception e){
+                    catch(ObjectExists e){
                         System.out.println(e.getMessage());
+                        break;
                     }
                     // Adding the lecturer to the selected department.
                     InsertLecturerIntoDepartment(selectedLecturer, departments, department, size_of_departments);
@@ -183,10 +245,9 @@ public class College_Managment {
             System.out.println("You haven't entered a name! Please enter a valid name.");
             name = scan.nextLine();
         }
-
         return name;
     }
-    public static Object findByName(Object [] details, String name,int size){
+    public static Object findByName(Object [] details, String name,int size) throws ObjectNotFoundException{
         if(details instanceof Lecturer[]) {
             for (int i = 0; i < size; i++) {
                 if ((lecturers[i]!=null) && lecturers[i].getFullName().equals(name)) {
@@ -208,7 +269,7 @@ public class College_Managment {
                 }
             }
         }
-        return null;
+        throw new ObjectNotFoundException("couldn't find what you were looking for, please try again");
 
     }
 
@@ -265,9 +326,11 @@ public class College_Managment {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter the name of the lecturer");
         String name = getName();
-        while (name.isEmpty() || findByName(lecturers,name,size_of_lecturers)!=null) {
-            System.out.println("please enter a valid name");
-            name = getName();
+        try {
+            doesExistByName(lecturers,name,size_of_lecturers);
+        }catch(ObjectExists e){
+            System.err.println(e.getMessage());
+            return null;
         }
         System.out.println("Please enter lecturer's ID");
         int ID= scan.nextInt();
@@ -291,7 +354,7 @@ public class College_Managment {
 
         System.out.println("Please enter degree's name");
         String degreeName =getName();
-        while(degreeName == null || degreeName.isEmpty()) {
+        while(degreeName == null) {
             System.out.println("The degree name is not valid please enter again");
             degreeName = scan.nextLine();
         }
@@ -306,16 +369,22 @@ public class College_Managment {
         System.out.println("Please enter lecturer's department");
         // Because there is a possibility the lecturer will not have a department. That's why using scan.
         String department = scan.nextLine();
-        while(!department.isEmpty() && findByName( departments,department, size_of_departments) == null){
-            System.out.println("the following department doesn't exist please enter a valid department name:");
-            department = scan.nextLine();
+        while(!department.isEmpty()){
+            try {
+                findByName(departments, department, size_of_departments);
+                break;
+            }catch (ObjectNotFoundException e){
+                System.out.println(e.getMessage());
+                System.out.println("please enter another department name");
+                department = scan.nextLine();
+            }
         }
         return new Lecturer(name,ID,dgreeType2,degreeName,salary,department);
     }
-    public static void RemoveFromCommittee(Lecturer lecturer,Lecturer [] lecturersINcommittee,Committee committee){
-        for(int i=0;i<lecturersINcommittee.length;i++) {
-            if (lecturersINcommittee[i].equals(lecturer)) {
-                lecturersINcommittee[i] = null;
+    public static void RemoveFromCommittee(Lecturer lecturer, Lecturer [] lecturersINCommittee, Committee committee){
+        for(int i = 0; i< lecturersINCommittee.length; i++) {
+            if (lecturersINCommittee[i].equals(lecturer)) {
+                lecturersINCommittee[i] = null;
             }
         }
         for (int i = 0; i < lecturer.getInCommittee().length; i++) {
@@ -327,7 +396,7 @@ public class College_Managment {
     }
     public static void InsertLecturerIntoCommittee(Lecturer selctedlecturer,Committee[] committees,Committee selctedCommittee,int size_of_committee) throws ObjectExists{
         for(int i=0;i<selctedlecturer.getInCommittee().length;i++) {
-            if (selctedlecturer.getInCommittee()[i].equals(selctedCommittee)) {
+            if (selctedlecturer.getInCommittee()[i]!=null && selctedlecturer.getInCommittee()[i].equals(selctedCommittee)) {
                 throw new ObjectExists("Lecturer already in committee");
             }
         }
@@ -364,27 +433,20 @@ public class College_Managment {
             }
         }
     }
-    
-    System.out.println("Department not found: " + department);
 }
-    public static void isHeadCommitteeDr(String LecturerName,String committeeName,int caseNum) throws LecturerCommitteeException {
-        Lecturer headOfCommittee = (Lecturer)findByName(lecturers,LecturerName,size_of_lecturers);
+    public static void isHeadCommitteeDr(String LecturerName,String committeeName) throws LecturerCommitteeException {
+        Lecturer headOfCommittee = null;
+        try {
+            headOfCommittee=(Lecturer) findByName(lecturers, LecturerName, size_of_lecturers);
+        }catch(ObjectNotFoundException e){
+            System.err.println(e.getMessage());
+            return;
+        }
         // Checking if the selected lecturer is a dr/professor or not
         if(headOfCommittee.getDegreeType()==DgreeNames.DOCTOR||headOfCommittee.getDegreeType()==DgreeNames.PROFESSOR){
-            if(caseNum==2){
-                headOfCommittee = (Lecturer)findByName(lecturers,headOfCommittee.getFullName(),size_of_lecturers);
-                Committee newCommittee = new Committee(committeeName,headOfCommittee);
-                committees = (Committee[]) add(newCommittee, committees, size_of_committee);
-                size_of_committee++;
-            }
-            else {
-                Committee changeHead = (Committee) findByName(committees, committeeName, size_of_committee);
-                Lecturer newHeadOfCommittee = (Lecturer) findByName(lecturers, headOfCommittee.getFullName(), size_of_lecturers);
-                changeHead.setHeadOfCommittee(newHeadOfCommittee);
-            }
+            return;
         }
-        else{
-        throw new LecturerCommitteeException("The lecturer you requested is not in line with the terms");}
+        throw new LecturerCommitteeException("The lecturer you requested is not in line with the terms");
 
     }
     public static int IndexOfFirstNull(Object[] details){
@@ -393,6 +455,16 @@ public class College_Managment {
         }
         return details.length;
     }
+    // in case there is something that needs to throw that something does exist already
+    public static void doesExistByName(Object[] details, String name, int size) throws ObjectExists{
+        try {
+            findByName(details, name, size);
+            throw new ObjectExists("Name already exists");
+        } catch (ObjectNotFoundException e) {
+            //nothing
+        }
+
+    }
     public static void PrintRealMenu(){
         System.out.println("0) Exit the system");
         System.out.println("1) Add lecturer");
@@ -400,7 +472,7 @@ public class College_Managment {
         System.out.println("3) Add lecturer to a committee");
         System.out.println("4) Assigning a head of committee to a committee");
         System.out.println("5) Remove lecturer from committee ");
-        System.out.println("6) Adding a department ");
+        System.out.println("6) Add a department ");
         System.out.println("7) Average salaries of all college lecturers");
         System.out.println("8) Average salaries of college lecturers belonging to a specific department");
         System.out.println("9) All lecturers info");
