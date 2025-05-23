@@ -3,15 +3,16 @@ package Artiom_and_Harel;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Doctor extends Lecturer{
+public class Doctor extends Lecturer implements Comperable<Doctor> {
     private String [] articles=new String[1];
     private int numberOfArticles; //The number of articles the Doctor has
-    public Doctor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,String [] articles) {
+    public Doctor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,int articles) {
         super(fullName, ID, degreeType, degreeName, salary, department);
-        this.articles = articles;
-        this.numberOfArticles=0;
+        this.numberOfArticles=articles;
     }
-
+    public int compareTo(Doctor l1){
+        return Integer.compare(this.numberOfArticles, l1.getNumberOfArticles());
+    }
     public String[] getArticles() {
         return articles;
     }
@@ -43,8 +44,7 @@ public class Doctor extends Lecturer{
 
     @Override
     public String toString() {
-        return "Doctor{" +
-                "articles=" + Arrays.toString(articles) +
-                '}';
+        return super.toString()+
+                "number of articles=" + this.numberOfArticles;
     }
 }

@@ -226,8 +226,89 @@ public class College_Managment {
                     InsertLecturerIntoDepartment(selectedLecturer, departments, department, size_of_departments);
                     break;
                 case 12:
-                    printArray(departments, size_of_departments);
+                    try{
+                    System.out.println("Please enter the name of the Doctor");
+                    String DoctorName = getName();
+                    Lecturer currentDoctor = (Lecturer) findByName(lecturers, DoctorName, size_of_lecturers);
+
+                    if(currentDoctor.getDegreeType()!=DgreeNames.DOCTOR){
+                        System.out.println("This lecturer is not a doctor please try again");
+                        System.out.println();
+                        break;
+                    }
+                    Doctor currentDoc=(Doctor)currentDoctor;
+
+                    System.out.println("Please enter the name of the Professor");
+                    String ProfessorName = getName();
+                    Lecturer currentProfessor = (Lecturer) findByName(lecturers, ProfessorName, size_of_lecturers);
+
+                    if(currentProfessor.getDegreeType()!=DgreeNames.PROFESSOR){
+                        System.out.println("This lecturer is not a professor please try again");
+                        System.out.println();
+                        break;
+                    }
+                    Doctor currentPro=(Doctor)currentProfessor;
+
+                    int compare = currentDoc.compareTo(currentPro);
+                    if (compare == -1)
+                        System.out.println(currentDoc.getDegreeType()+ " " + currentDoc.getFullName() + " has less articles than  " + currentPro.getDegreeType() + " " + currentPro.getFullName());
+
+                    else if (compare == 0)
+                        System.out.println(currentDoc.getDegreeType() + " " + currentDoc.getFullName() + " has the same articles as  " + currentPro.getDegreeType() + " " + currentPro.getFullName());
+
+                    else
+                        System.out.println(currentDoc.getDegreeType() + " " + currentDoc.getFullName() + " has more articles than  " + currentPro.getDegreeType() + " " + currentPro.getFullName());
+
+                    } catch (ObjectNotFoundException e) {
+                        System.err.println(e.getMessage());
+                        break;
+                    }
                     break;
+                    case 13:
+                        System.out.println("Please enter the name of the committee you would like to clone");
+                        String CommitteeName = getName();
+                        try {
+                            Committee currentCommittee =(Committee)findByName(committees, CommitteeName, size_of_committee);
+                            try {
+                                Committee cloned = currentCommittee.clone();
+                                System.out.println(cloned.toString());
+                                add(cloned, committees, size_of_committee++);
+                            }
+                            catch (CloneNotSupportedException e) {
+                                System.err.println("Clone not supported");
+                                break;
+                            }
+                            System.out.println("The committee" +CommitteeName + "has been cloned successfully");
+                        }
+                        catch (ObjectNotFoundException e){
+                            System.err.println(e.getMessage());
+
+                        }
+                        break;
+                        case 14:
+                            System.out.println("Please enter the name of the first committee");
+                            String firstCommitteeName = getName();
+                            System.out.println("Please enter the name of the second committee");
+                            String secondCommitteeName = getName();
+                            try {
+                                Committee first = (Committee) findByName(committees, firstCommitteeName, size_of_committee);
+                                Committee second =(Committee) findByName(committees, secondCommitteeName, size_of_committee);
+                                System.out.println("For comparing with Articles Count - Press 1, For comparing with Staff Count - Press 2");
+                                int digit = scan.nextInt();
+                                if(digit==1){
+                                    ArticlesCountComperator articlesCountComperator = new ArticlesCountComperator();
+                                    System.out.println(articlesCountComperator.compare(first, second));
+                                }
+                                if(digit==2){
+                                    StaffCountCompertator a=new StaffCountCompertator();
+                                    System.out.println(a.compare(first, second));
+                                }
+                            }
+                            catch (ObjectNotFoundException e) {
+                                System.err.println(e.getMessage());
+                                break;
+                            }
+
                 default:
                     System.out.println("Invalid option!");
             }
@@ -379,8 +460,20 @@ public class College_Managment {
                 department = scan.nextLine();
             }
         }
+        if(dgreeType2.name().equals("DOCTOR") |dgreeType2.name().equals("PROFESSOR")){
+            System.out.println("Please enter how many articles have you published");
+            int numberOfArticles = scan.nextInt();
+            if(dgreeType2.name().equals("PROFESSOR")){
+                System.out.println("Please enter who gave you your title");
+                String title = getName();
+                return new Professor(name,ID,dgreeType2,degreeName,salary,department,numberOfArticles,title);
+            }
+            return new Doctor(name,ID,dgreeType2,degreeName,salary,department,numberOfArticles);
+        }
         return new Lecturer(name,ID,dgreeType2,degreeName,salary,department);
     }
+
+
     public static void RemoveFromCommittee(Lecturer lecturer, Lecturer [] lecturersINCommittee, Committee committee){
         for(int i = 0; i< lecturersINCommittee.length; i++) {
             if (lecturersINCommittee[i].equals(lecturer)) {
@@ -478,5 +571,8 @@ public class College_Managment {
         System.out.println("9) All lecturers info");
         System.out.println("10) All committees info");
         System.out.println("11) Assign lecturer to a department ");
+        System.out.println("12) Compering between Professor and Doctor - Number of articles ");
+        System.out.println("13) Clone a committee of your choice ");
+        System.out.println("14) Comperaing between two committees of your choice ");
     }
 }

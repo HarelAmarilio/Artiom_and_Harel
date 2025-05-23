@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Professor extends Doctor{
     private String title;
-    public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,String [] articles, String title) {
+    public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,int articles, String title) {
         super(fullName,ID,degreeType, degreeName, salary,department,articles);
         this.title = title;
     }
@@ -32,8 +32,7 @@ public class Professor extends Doctor{
 
     @Override
     public String toString() {
-        return "Professor{" +
-                "title='" + title + '\'' +
-                '}';
+        return super.toString()+
+                "title='" + title + '\'';
     }
 }
