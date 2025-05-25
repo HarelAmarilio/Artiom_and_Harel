@@ -23,11 +23,7 @@ public class Lecturer implements Cloneable {
         this(fullName,ID,degreeType,degreeName,salary,null);
     }
     public Lecturer clone() throws CloneNotSupportedException{
-        Lecturer clone = (Lecturer) super.clone();
-        if (this.InCommittee != null) {
-            clone.InCommittee = Arrays.copyOf(this.InCommittee, this.InCommittee.length);
-        }
-        return clone;
+        return (Lecturer) super.clone();
     }
     public Committee[] getInCommittee() {
         return InCommittee;

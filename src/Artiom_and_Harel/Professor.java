@@ -2,11 +2,15 @@ package Artiom_and_Harel;
 
 import java.util.Objects;
 
-public class Professor extends Doctor{
+public class Professor extends Doctor implements Cloneable{
     private String title;
     public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,int articles, String title) {
         super(fullName,ID,degreeType, degreeName, salary,department,articles);
         this.title = title;
+    }
+    public Doctor clone() throws CloneNotSupportedException {
+        Professor cloned = (Professor) super.clone();
+        return cloned;
     }
 
     public String getTitle() {
