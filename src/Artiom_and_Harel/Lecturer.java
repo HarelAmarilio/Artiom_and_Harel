@@ -1,7 +1,7 @@
 package Artiom_and_Harel;
 import java.util.Objects;
 
-public class Lecturer implements Cloneable {
+public class Lecturer {
     private String FullName;
     private int ID;
     private DgreeNames DegreeType;
@@ -22,9 +22,7 @@ public class Lecturer implements Cloneable {
     public Lecturer(String fullName, double salary, String degreeName, DgreeNames degreeType, int ID) {
         this(fullName,ID,degreeType,degreeName,salary,null);
     }
-    public Lecturer clone() throws CloneNotSupportedException{
-        return (Lecturer) super.clone();
-    }
+
     public Committee[] getInCommittee() {
         return InCommittee;
     }

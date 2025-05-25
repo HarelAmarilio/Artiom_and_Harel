@@ -6,8 +6,10 @@ public class Committee implements Cloneable {
     private Lecturer[] lecturers=new Lecturer[1];
     private Lecturer headOfCommittee; // Must be a Dr + will not appear in the lectures
 
+    @Override
    public Committee clone() throws CloneNotSupportedException {
        Committee clone = (Committee) super.clone();
+       clone.headOfCommittee = this.headOfCommittee;
        clone.CopyArray(this.lecturers);
        clone.name="new-" + name; // Adding "new" as requested
        return clone;

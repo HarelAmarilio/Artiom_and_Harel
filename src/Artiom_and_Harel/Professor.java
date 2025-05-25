@@ -8,10 +8,6 @@ public class Professor extends Doctor implements Cloneable{
         super(fullName,ID,degreeType, degreeName, salary,department,articles);
         this.title = title;
     }
-    public Doctor clone() throws CloneNotSupportedException {
-        Professor cloned = (Professor) super.clone();
-        return cloned;
-    }
 
     public String getTitle() {
         return title;
