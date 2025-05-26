@@ -222,9 +222,12 @@ public class College_Managment {
                     String CommitteeName = getName();
                     Committee currentCommittee =(Committee)findByName(committees, CommitteeName, size_of_committee);
                     Committee cloned = currentCommittee.clone();
-                    System.out.println(cloned.toString());
-                    add(cloned, committees, size_of_committee++);
-                    System.out.println("The committee" +CommitteeName + "has been cloned successfully");
+                    committees = (Committee[]) add(cloned, committees, size_of_committee);
+                    size_of_committee++;
+                    System.out.println("The committee " +CommitteeName + " has been cloned successfully");
+                    for(int i=0; i < cloned.getLecturers().length;i++){
+                        cloned.getLecturers()[i].setInCommittee((Committee[])add(cloned, cloned.getLecturers()[i].getInCommittee(),IndexOfFirstNull(cloned.getLecturers()[i].getInCommittee())));
+                    }
 
                     }catch (ObjectNotFoundException | CloneNotSupportedException e){
                         System.err.println(e.getMessage());
@@ -310,11 +313,11 @@ public class College_Managment {
         }
     }
     // The function updates the actual size of the array in case input has been made
-    public static Object[] add(Object obj, Object[] details, int size) {
-        if (size >= details.length) {
+    public static Object[] add(Object obj, Object[] details, int index) {
+        if (index >= details.length) {
             details = increaseArraySize(details);
         }
-        details[size] = obj;
+        details[index] = obj;
         return details;
     }
     // Prints the selected array
@@ -406,7 +409,7 @@ public class College_Managment {
                 department = scan.nextLine();
             }
         }
-        if(dgreeType2.name().equals("DOCTOR") |dgreeType2.name().equals("PROFESSOR")){
+        if(dgreeType2 == DgreeNames.DOCTOR || dgreeType2 == DgreeNames.PROFESSOR){
             System.out.println("Please enter how many articles have you published");
             int numberOfArticles = scan.nextInt();
             if(dgreeType2.name().equals("PROFESSOR")){
@@ -474,19 +477,17 @@ public class College_Managment {
     }
 }
     public static void isHeadCommitteeDr(String LecturerName,String committeeName) throws LecturerCommitteeException {
-        Lecturer headOfCommittee = null;
         try {
-            headOfCommittee=(Lecturer) findByName(lecturers, LecturerName, size_of_lecturers);
-        }catch(ObjectNotFoundException e){
-            System.err.println(e.getMessage());
-            return;
-        }
+        Lecturer headOfCommittee=(Lecturer) findByName(lecturers, LecturerName, size_of_lecturers);
         // Checking if the selected lecturer is a dr/professor or not
-        if(headOfCommittee.getDegreeType()==DgreeNames.DOCTOR||headOfCommittee.getDegreeType()==DgreeNames.PROFESSOR){
+        if(headOfCommittee.getDegreeType()==DgreeNames.DOCTOR || headOfCommittee.getDegreeType()==DgreeNames.PROFESSOR){
             return;
         }
         throw new LecturerCommitteeException("The lecturer you requested is not in line with the terms");
 
+        }catch(ObjectNotFoundException e){
+            System.err.println(e.getMessage());
+        }
     }
     public static int IndexOfFirstNull(Object[] details){
         for(int i=0;i< details.length;i++){

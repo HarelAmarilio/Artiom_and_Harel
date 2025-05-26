@@ -45,6 +45,6 @@ public class Doctor extends Lecturer implements Comperable<Doctor>{
     @Override
     public String toString() {
         return super.toString()+
-                "number of articles=" + this.numberOfArticles;
+                ",number of articles=" + this.numberOfArticles;
     }
 }

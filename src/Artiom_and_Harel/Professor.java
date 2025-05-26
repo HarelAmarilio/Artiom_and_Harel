@@ -2,7 +2,7 @@ package Artiom_and_Harel;
 
 import java.util.Objects;
 
-public class Professor extends Doctor implements Cloneable{
+public class Professor extends Doctor {
     private String title;
     public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,int articles, String title) {
         super(fullName,ID,degreeType, degreeName, salary,department,articles);
@@ -33,6 +33,6 @@ public class Professor extends Doctor implements Cloneable{
     @Override
     public String toString() {
         return super.toString()+
-                "title='" + title + '\'';
+                ",title='" + title + '\'';
     }
 }

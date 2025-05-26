@@ -113,7 +113,7 @@ public class Lecturer {
                         ", Degree Name='" + DegreeName + '\'' +
                         ", Salary=" + Salary +
                         ",department='" + department + '\''+
-                        ",committees='" + committeessNames;
+                        ",committees='" + committeessNames + '\'';
 
     }
 }

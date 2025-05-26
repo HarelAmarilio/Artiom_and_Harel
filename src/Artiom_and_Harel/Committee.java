@@ -9,9 +9,8 @@ public class Committee implements Cloneable {
     @Override
    public Committee clone() throws CloneNotSupportedException {
        Committee clone = (Committee) super.clone();
-       clone.headOfCommittee = this.headOfCommittee;
        clone.CopyArray(this.lecturers);
-       clone.name="new-" + name; // Adding "new" as requested
+       clone.name = this.name + "-new"; // Adding "new" as requested
        return clone;
    }
     // Adding a head of committee who's a lecturer and the array of the lecturers
