@@ -245,8 +245,8 @@ public class College_Managment {
                     System.out.println("For comparing with Articles Count - Press 1, For comparing with Staff Count - Press 2");
                     int digit = scan.nextInt();
                         if(digit==1){
-                        ArticlesCountComperator articlesCountComperator = new ArticlesCountComperator();
-                        System.out.println(articlesCountComperator.compare(first, second));
+                        ArticlesCountComparator articlesCountComparator = new ArticlesCountComparator();
+                        System.out.println(articlesCountComparator.compare(first, second));
                         }
                         if(digit==2){
                         StaffCountCompertator a=new StaffCountCompertator();
@@ -412,12 +412,17 @@ public class College_Managment {
         if(dgreeType2 == DgreeNames.DOCTOR || dgreeType2 == DgreeNames.PROFESSOR){
             System.out.println("Please enter how many articles have you published");
             int numberOfArticles = scan.nextInt();
-            if(dgreeType2.name().equals("PROFESSOR")){
+            String [] ArticlesNames= new String[numberOfArticles];
+            for(int i=0;i< ArticlesNames.length;i++){
+                System.out.println("Please enter the names of the articles");
+                ArticlesNames[i] = getName();
+            }
+            if(dgreeType2 == DgreeNames.PROFESSOR){
                 System.out.println("Please enter who gave you your title");
                 String title = getName();
-                return new Professor(name,ID,dgreeType2,degreeName,salary,department,numberOfArticles,title);
+                return new Professor(name,ID,dgreeType2,degreeName,salary,department,numberOfArticles,ArticlesNames,title);
             }
-            return new Doctor(name,ID,dgreeType2,degreeName,salary,department,numberOfArticles);
+            return new Doctor(name,ID,dgreeType2,degreeName,salary,department,numberOfArticles,ArticlesNames);
         }
         return new Lecturer(name,ID,dgreeType2,degreeName,salary,department);
     }

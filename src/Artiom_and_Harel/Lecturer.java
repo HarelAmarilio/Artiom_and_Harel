@@ -2,13 +2,13 @@ package Artiom_and_Harel;
 import java.util.Objects;
 
 public class Lecturer {
-    private String FullName;
-    private int ID;
-    private DgreeNames DegreeType;
-    private String DegreeName;
-    private double Salary;
-    private String department;
-    private Committee[] InCommittee=new Committee[1];
+    protected String FullName;
+    protected int ID;
+    protected DgreeNames DegreeType;
+    protected String DegreeName;
+    protected double Salary;
+    protected String department;
+    protected Committee[] InCommittee=new Committee[1];
 
     public Lecturer(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department) {
         setFullName(fullName);
@@ -112,8 +112,8 @@ public class Lecturer {
                         ", Degree Type='" + DegreeType + '\'' +
                         ", Degree Name='" + DegreeName + '\'' +
                         ", Salary=" + Salary +
-                        ",department='" + department + '\''+
-                        ",committees='" + committeessNames + '\'';
+                        ", department='" + department + '\''+
+                        ", committees='" + committeessNames + '\'';
 
     }
 }
