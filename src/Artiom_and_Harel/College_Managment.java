@@ -25,8 +25,7 @@ public class College_Managment implements Serializable {
                     }
                     lecturers.add(lecturer);
                     // Adding the lecturer into the requested department
-                    if(!lecturer.getDepartment().isEmpty()) {
-                        InsertLecturerIntoDepartment(lecturer, departments, lecturer.getDepartment(), size_of_departments);
+                    if(!lecturer.getDepartment().isEmpty()) {InsertLecturerIntoDepartment(lecturer, departments, lecturer.getDepartment());
                     }
                     break;
 
@@ -134,8 +133,8 @@ public class College_Managment implements Serializable {
 
                 case 7:
                     double Avg = 0;
-                    for (int i = 0; i < size_of_lecturers; i++) {
-                        Avg = Avg + lecturers[i].getSalary();
+                    for (int i = 0; i < lecturers.size(); i++) {
+                        Avg = Avg + lecturers.get(i).getSalary();
                     }
                     Avg = Avg / lecturers.size();
                     System.out.println("The average salary of the lectures is: " + Avg);
@@ -147,9 +146,9 @@ public class College_Managment implements Serializable {
                     System.out.println("Average salaries of which department would you like?");
                     String Department = scan.nextLine();
                     double Average = 0;
-                    for (int i = 0; i < size_of_lecturers; i++) {
-                        if (lecturers[i].getDepartment().equals(Department)) {
-                            Average = Average + lecturers[i].getSalary();
+                    for (int i = 0; i < lecturers.size(); i++) {
+                        if (lecturers.get(i).getDepartment().equals(Department)) {
+                            Average = Average + lecturers.get(i).getSalary();
                             counter++;
                         }
                     }
@@ -158,12 +157,12 @@ public class College_Managment implements Serializable {
                     break;
 
                 case 9:
-                    printArray(lecturers, size_of_lecturers);
+                    printArray(lecturers);
                     System.out.println();
                     break;
 
                 case 10:
-                    printArray(committees, size_of_committee);
+                    printArray(committees);
                     System.out.println();
                     break;
 
@@ -284,30 +283,14 @@ public class College_Managment implements Serializable {
         }
         return name;
     }
-    public static Object findByName(Object [] details, String name,int size) throws ObjectNotFoundException{
-        if(details instanceof Lecturer[]) {
-            for (int i = 0; i < size; i++) {
-                if ((lecturers[i]!=null) && lecturers[i].getFullName().equals(name)) {
-                    return lecturers[i];
-                }
-            }
-        }
-        else if(details instanceof Committee[]) {
-            for(int i=0;i < size_of_committee;i++){
-                if(committees[i] != null && committees[i].getName().equals(name)){
-                    return committees[i];
-                }
-            }
-        }
-        else if(details instanceof Department[]) {
-            for(int i=0;i<size_of_departments;i++){
-                if(departments[i] != null && departments[i].getName().equals(name)){
-                    return departments[i];
-                }
-            }
-        }
-        throw new ObjectNotFoundException("couldn't find what you were looking for, please try again");
 
+    public static <T extends Nameable> T findByName(ArrayList<T> details, String name) throws ObjectNotFoundException {
+        for (int i = 0; i < details.size(); i++) {
+            if (details.get(i) != null && details.get(i).getName().equals(name)) {
+                return details.get(i);
+            }
+        }
+        throw new ObjectNotFoundException("Object with name '" + name + "' not found.");
     }
 
     // A function that checks if something exists already in the array by object
@@ -326,38 +309,13 @@ public class College_Managment implements Serializable {
             if(details.get(i)!=null){ System.out.println(details.get(i).toString());}
         }
     }
-    // A function for increasing the size of the array if necessary
-    public static Object[] increaseArraySize(Object[] details) {
-        if (details instanceof Lecturer[]) {
-            Lecturer[] newArray = new Lecturer[details.length * 2];
-            for (int i = 0; i < details.length; i++) {
-                newArray[i] = (Lecturer) details[i];
-            }
-            return newArray;
 
-        } else if (details instanceof Committee[]) {
-            Committee[] newArray = new Committee[details.length * 2];
-            for (int i = 0; i < details.length; i++) {
-                newArray[i] = (Committee) details[i];
-            }
-            return newArray;
-
-        } else if (details instanceof Department[]) {
-            Department[] newArray = new Department[details.length * 2];
-            for (int i = 0; i < details.length; i++) {
-                newArray[i] = (Department) details[i];
-            }
-            return newArray;
-        }
-        return details;
-
-    }
-    public static Lecturer LecturerBuild(){
+    public Lecturer LecturerBuild(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter the name of the lecturer");
         String name = getName();
         try {
-            doesExistByName(lecturers,name,size_of_lecturers);
+            doesExistByName(this.lecturers,name);
         }catch(ObjectExists e){
             System.err.println(e.getMessage());
             return null;
@@ -401,7 +359,7 @@ public class College_Managment implements Serializable {
         String department = scan.nextLine();
         while(!department.isEmpty()){
             try {
-                findByName(departments, department, size_of_departments);
+                findByName(this.departments, department);
                 break;
             }catch (ObjectNotFoundException e){
                 System.out.println(e.getMessage());
@@ -452,14 +410,14 @@ public class College_Managment implements Serializable {
                 throw new ObjectExists("Lecturer already in committee");
             }
         }
-        for(int i=0;i<size_of_committee;i++){
-            if(selctedCommittee.equals(committees[i])){
-                committees[i].setLecturers((Lecturer[])add(selctedlecturer, committees[i].getLecturers(),IndexOfFirstNull(committees[i].getLecturers())));
+        for(int i=0;i<committees.size();i++){
+            if(selctedCommittee.equals(committees.get(i))){
+                committees.get(i).getLecturers().add(selctedlecturer);
             }
         }
-        for(int i=0;i<lecturers.length;i++) {
-            if (selctedlecturer.equals(lecturers[i])) {
-                lecturers[i].setInCommittee((Committee[]) add(selctedCommittee, lecturers[i].getInCommittee(), IndexOfFirstNull(lecturers[i].getInCommittee())));
+        for(int i=0;i<this.lecturers.size();i++) {
+            if (selctedlecturer.equals(this.lecturers.get(i))) {
+                this.lecturers.get(i).getInCommittee().add(selctedCommittee);
             }
         }
     }
@@ -506,9 +464,9 @@ public class College_Managment implements Serializable {
         return details.length;
     }
     // in case there is something that needs to throw that something does exist already
-    public static void doesExistByName(Object[] details, String name, int size) throws ObjectExists{
+    public static <T extends Nameable> void doesExistByName(ArrayList<T> details, String name) throws ObjectExists{
         try {
-            findByName(details, name, size);
+            findByName(details, name);
             throw new ObjectExists("Name already exists");
         } catch (ObjectNotFoundException e) {
             //nothing

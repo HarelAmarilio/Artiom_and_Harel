@@ -4,7 +4,7 @@ import java.security.SecureRandomParameters;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Professor extends Doctor {
+public class Professor extends Doctor implements Serializable {
     private String title;
     public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department, int numberOfArticle, ArrayList <String> articles, String title) {
         super(fullName,ID,degreeType, degreeName, salary,department,numberOfArticle,articles);

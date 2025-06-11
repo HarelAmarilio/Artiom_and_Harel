@@ -74,7 +74,7 @@ public class Lecturer implements Nameable, Serializable {
         this.ID = ID;
     }
 
-    public String getFullName() {
+    public String getName() {
         return FullName;
     }
 

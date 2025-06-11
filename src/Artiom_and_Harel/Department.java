@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Department {
+public class Department implements Nameable, Serializable{
     private String Name;
     private static final long serialVersionUID = 1L;
     private int number_of_students;
