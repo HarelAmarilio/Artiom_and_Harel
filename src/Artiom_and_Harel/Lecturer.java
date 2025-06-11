@@ -1,4 +1,5 @@
 package Artiom_and_Harel;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Lecturer implements Cloneable {
