@@ -1,10 +1,13 @@
 package Artiom_and_Harel;
+import java.util.ArrayList;
 import java.util.Objects;
-
-public class Committee implements Cloneable {
+import java.io.Serializable;
+public class Committee implements Cloneable,Nameable,Serializable {
     private String name;
-    private Lecturer[] lecturers=new Lecturer[1];
-    private Lecturer headOfCommittee; // Must be a Dr + will not appear in the lectures
+    private static final long serialVersionUID = 1L;
+    private ArrayList<Lecturer> lecturers=new ArrayList<Lecturer>();
+    private Lecturer headOfCommittee;
+    private DgreeNames typeOfDegree;// Must be a Dr + will not appear in the lectures
 
     @Override
    public Committee clone() throws CloneNotSupportedException {
@@ -14,21 +17,30 @@ public class Committee implements Cloneable {
        return clone;
    }
     // Adding a head of committee who's a lecturer and the array of the lecturers
-    public Committee(String name, Lecturer headOfCommittee) {
+    public Committee(String name, Lecturer headOfCommittee, DgreeNames typeOfDegree) {
         setName(name);
         setHeadOfCommittee(headOfCommittee);
         setLecturers(lecturers);
+        setTypeOfDegree(typeOfDegree);
     }
 
-    public Lecturer[] getLecturers() {
+
+    public DgreeNames getTypeOfDegree() {
+        return typeOfDegree;
+    }
+
+    public ArrayList<Lecturer> getLecturers() {
         return lecturers;
     }
 
     public Lecturer getHeadOfCommittee() {
         return headOfCommittee;
     }
+    public void setTypeOfDegree(DgreeNames typeOfDegree) {
+        this.typeOfDegree = typeOfDegree;
+    }
 
-    public void setLecturers(Lecturer[] lecturers) {
+    public void setLecturers(ArrayList<Lecturer> lecturers) {
         this.lecturers = lecturers;
     }
 
@@ -57,20 +69,17 @@ public class Committee implements Cloneable {
     }
 
     //makes a shallow copy of the lecturers array for the clone action
-    public void CopyArray(Lecturer[] lecturers){
-       if(lecturers != null && lecturers.length >0){
-           this.lecturers = new Lecturer[lecturers.length];
-           for(int i=0;i<lecturers.length;i++){
-               if (lecturers[i] !=null){
-                   this.lecturers[i] = lecturers[i];
-               }else{
-                   this.lecturers[i]=null;
-               }
-           }
-       }else{
-           this.lecturers=new Lecturer[0];
-       }
+    public void CopyArray(ArrayList<Lecturer> lecturers){
+        if (lecturers != null && !lecturers.isEmpty()) {
+            this.lecturers = new ArrayList<>(lecturers.size());
+            for (int i = 0; i < lecturers.size(); i++) {
+                this.lecturers.add(lecturers.get(i));
+            }
+        } else {
+            this.lecturers = new ArrayList<>(1);
+        }
     }
+
 
     @Override
     public String toString() {
@@ -83,7 +92,7 @@ public class Committee implements Cloneable {
                     if (!lecturersNames.isEmpty()) {
                         lecturersNames += ", ";
                     }
-                    lecturersNames += lecturer.getFullName();
+                    lecturersNames += lecturer.getName();
                 }
             }
         }

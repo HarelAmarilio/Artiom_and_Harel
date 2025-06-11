@@ -1,6 +1,6 @@
 package Artiom_and_Harel;
-
-public class ObjectExists extends Exception {
+import java.io.Serializable;
+public class ObjectExists extends Exception implements Serializable {
     public ObjectExists(String message) {
         super(message);
     }

@@ -1,6 +1,6 @@
 package Artiom_and_Harel;
-
-public class LecturerCommitteeException extends Exception {
+import java.io.Serializable;
+public class LecturerCommitteeException extends Exception implements Serializable {
     public LecturerCommitteeException(String message) {
         super(message);
     }

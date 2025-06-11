@@ -1,11 +1,13 @@
 package Artiom_and_Harel;
-
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Department {
     private String Name;
+    private static final long serialVersionUID = 1L;
     private int number_of_students;
-    private Lecturer [] lecturers=new Lecturer[1];
+    private ArrayList<Lecturer> lecturers=new ArrayList<Lecturer>();
     // Our attributes
 
     public Department(String name, int number_of_students) {
@@ -21,7 +23,7 @@ public class Department {
         return number_of_students;
     }
 
-    public Lecturer[] getLecturers() {
+    public ArrayList <Lecturer>getLecturers() {
         return lecturers;
     }
 
@@ -33,7 +35,7 @@ public class Department {
         this.number_of_students = number_of_students;
     }
 
-    public void setLecturers(Lecturer[] lecturers) {
+    public void setLecturers(ArrayList<Lecturer> lecturers) {
         this.lecturers = lecturers;
     }
 
@@ -59,7 +61,7 @@ public class Department {
                 if (!lecturersNames.isEmpty()) {
                     lecturersNames += ", ";
                 }
-                lecturersNames += lecturer.getFullName();
+                lecturersNames += lecturer.getName();
 
             }
         }

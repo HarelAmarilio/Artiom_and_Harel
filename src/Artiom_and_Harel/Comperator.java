@@ -1,5 +1,5 @@
 package Artiom_and_Harel;
-
-public interface Comperator<T> {
+import java.io.Serializable;
+public interface Comperator<T>{
     public int compare(T o1, T o2);
 }

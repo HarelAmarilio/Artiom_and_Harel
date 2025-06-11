@@ -1,15 +1,17 @@
 package Artiom_and_Harel;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-
-public class Lecturer {
+import java.io.Serializable;
+public class Lecturer implements Nameable, Serializable {
     protected String FullName;
     protected int ID;
     protected DgreeNames DegreeType;
     protected String DegreeName;
     protected double Salary;
     protected String department;
-    protected Committee[] InCommittee=new Committee[1];
+    protected ArrayList<Committee> InCommittee=new ArrayList<Committee>();
+    private static final long serialVersionUID = 1L;
 
     public Lecturer(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department) {
         setFullName(fullName);
@@ -24,11 +26,11 @@ public class Lecturer {
         this(fullName,ID,degreeType,degreeName,salary,null);
     }
 
-    public Committee[] getInCommittee() {
+    public ArrayList<Committee> getInCommittee() {
         return InCommittee;
     }
 
-    public void setInCommittee(Committee[] committee) {
+    public void setInCommittee(ArrayList<Committee> committee) {
         InCommittee = committee;
     }
 
