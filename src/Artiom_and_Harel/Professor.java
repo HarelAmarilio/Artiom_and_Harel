@@ -2,10 +2,10 @@ package Artiom_and_Harel;
 
 import java.util.Objects;
 
-public class Professor extends Doctor{
+public class Professor extends Doctor {
     private String title;
-    public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,int articles, String title) {
-        super(fullName,ID,degreeType, degreeName, salary,department,articles);
+    public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,int numberOfArticle,String [] articles, String title) {
+        super(fullName,ID,degreeType, degreeName, salary,department,numberOfArticle,articles);
         this.title = title;
     }
 
@@ -33,6 +33,6 @@ public class Professor extends Doctor{
     @Override
     public String toString() {
         return super.toString()+
-                "title='" + title + '\'';
+                ", title='" + title + '\'';
     }
 }

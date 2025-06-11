@@ -1,6 +1,8 @@
 package Artiom_and_Harel;
 
-public class ArticlesCountComperator implements Comperator<Committee>{
+import java.util.Comparator;
+
+public class ArticlesCountComparator implements Comparator<Committee>{
     private int SumArticles(Committee committee) {
         int sum = 0;
         for (int i = 0; i < committee.getLecturers().length; i++) {

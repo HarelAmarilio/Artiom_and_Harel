@@ -2,14 +2,14 @@ package Artiom_and_Harel;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Lecturer implements Cloneable {
-    private String FullName;
-    private int ID;
-    private DgreeNames DegreeType;
-    private String DegreeName;
-    private double Salary;
-    private String department;
-    private Committee[] InCommittee=new Committee[1];
+public class Lecturer {
+    protected String FullName;
+    protected int ID;
+    protected DgreeNames DegreeType;
+    protected String DegreeName;
+    protected double Salary;
+    protected String department;
+    protected Committee[] InCommittee=new Committee[1];
 
     public Lecturer(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department) {
         setFullName(fullName);
@@ -23,13 +23,7 @@ public class Lecturer implements Cloneable {
     public Lecturer(String fullName, double salary, String degreeName, DgreeNames degreeType, int ID) {
         this(fullName,ID,degreeType,degreeName,salary,null);
     }
-    public Lecturer clone() throws CloneNotSupportedException{
-        Lecturer clone = (Lecturer) super.clone();
-        if (this.InCommittee != null) {
-            clone.InCommittee = Arrays.copyOf(this.InCommittee, this.InCommittee.length);
-        }
-        return clone;
-    }
+
     public Committee[] getInCommittee() {
         return InCommittee;
     }
@@ -119,8 +113,8 @@ public class Lecturer implements Cloneable {
                         ", Degree Type='" + DegreeType + '\'' +
                         ", Degree Name='" + DegreeName + '\'' +
                         ", Salary=" + Salary +
-                        ",department='" + department + '\''+
-                        ",committees='" + committeessNames;
+                        ", department='" + department + '\''+
+                        ", committees='" + committeessNames + '\'';
 
     }
 }

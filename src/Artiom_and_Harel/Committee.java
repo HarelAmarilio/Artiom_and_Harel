@@ -1,19 +1,16 @@
 package Artiom_and_Harel;
-
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Committee implements Cloneable {
     private String name;
     private Lecturer[] lecturers=new Lecturer[1];
     private Lecturer headOfCommittee; // Must be a Dr + will not appear in the lectures
+
+    @Override
    public Committee clone() throws CloneNotSupportedException {
        Committee clone = (Committee) super.clone();
-       if (this.lecturers != null) {
-           clone.lecturers = Arrays.copyOf(this.lecturers, this.lecturers.length);
-       }
-       clone.headOfCommittee= (Lecturer) headOfCommittee.clone();
-       clone.name="new-" + name; // Adding "new" as requested
+       clone.CopyArray(this.lecturers);
+       clone.name = this.name + "-new"; // Adding "new" as requested
        return clone;
    }
     // Adding a head of committee who's a lecturer and the array of the lecturers
@@ -57,6 +54,22 @@ public class Committee implements Cloneable {
     @Override
     public int hashCode() {
         return Objects.hashCode(name);
+    }
+
+    //makes a shallow copy of the lecturers array for the clone action
+    public void CopyArray(Lecturer[] lecturers){
+       if(lecturers != null && lecturers.length >0){
+           this.lecturers = new Lecturer[lecturers.length];
+           for(int i=0;i<lecturers.length;i++){
+               if (lecturers[i] !=null){
+                   this.lecturers[i] = lecturers[i];
+               }else{
+                   this.lecturers[i]=null;
+               }
+           }
+       }else{
+           this.lecturers=new Lecturer[0];
+       }
     }
 
     @Override
