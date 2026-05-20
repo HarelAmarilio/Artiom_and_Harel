@@ -1,13 +1,13 @@
 package Artiom_and_Harel;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Department implements Nameable, Serializable{
     private String Name;
     private static final long serialVersionUID = 1L;
     private int number_of_students;
-    private ArrayList<Lecturer> lecturers=new ArrayList<Lecturer>();
+    private HashSet<Lecturer> lecturers=new HashSet<Lecturer>();
     // Our attributes
 
     public Department(String name, int number_of_students) {
@@ -23,7 +23,7 @@ public class Department implements Nameable, Serializable{
         return number_of_students;
     }
 
-    public ArrayList <Lecturer>getLecturers() {
+    public HashSet <Lecturer>getLecturers() {
         return lecturers;
     }
 
@@ -35,7 +35,7 @@ public class Department implements Nameable, Serializable{
         this.number_of_students = number_of_students;
     }
 
-    public void setLecturers(ArrayList<Lecturer> lecturers) {
+    public void setLecturers(HashSet<Lecturer> lecturers) {
         this.lecturers = lecturers;
     }
 

@@ -1,6 +1,5 @@
 package Artiom_and_Harel;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.io.Serializable;
 public class Lecturer implements Nameable, Serializable {
@@ -10,7 +9,7 @@ public class Lecturer implements Nameable, Serializable {
     protected String DegreeName;
     protected double Salary;
     protected String department;
-    protected ArrayList<Committee> InCommittee=new ArrayList<Committee>();
+    protected HashSet<Committee> InCommittee=new HashSet<>();
     private static final long serialVersionUID = 1L;
 
     public Lecturer(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department) {
@@ -26,11 +25,11 @@ public class Lecturer implements Nameable, Serializable {
         this(fullName,ID,degreeType,degreeName,salary,null);
     }
 
-    public ArrayList<Committee> getInCommittee() {
+    public HashSet<Committee> getInCommittee() {
         return InCommittee;
     }
 
-    public void setInCommittee(ArrayList<Committee> committee) {
+    public void setInCommittee(HashSet<Committee> committee) {
         InCommittee = committee;
     }
 
@@ -119,4 +118,5 @@ public class Lecturer implements Nameable, Serializable {
                         ", committees='" + committeessNames + '\'';
 
     }
+
 }

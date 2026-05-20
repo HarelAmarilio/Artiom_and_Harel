@@ -1,18 +1,18 @@
 package Artiom_and_Harel;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 import java.io.Serializable;
 public class Committee implements Cloneable,Nameable,Serializable {
     private String name;
     private static final long serialVersionUID = 1L;
-    private ArrayList<Lecturer> lecturers=new ArrayList<Lecturer>();
+    private HashSet<Lecturer> lecturers=new HashSet<Lecturer>(); // FIX
     private Lecturer headOfCommittee;
     private DgreeNames typeOfDegree;// Must be a Dr + will not appear in the lectures
 
     @Override
    public Committee clone() throws CloneNotSupportedException {
        Committee clone = (Committee) super.clone();
-       clone.CopyArray(this.lecturers);
+       clone.lecturers = new HashSet<>(this.lecturers); // FIX
        clone.name = this.name + "-new"; // Adding "new" as requested
        return clone;
    }
@@ -29,9 +29,9 @@ public class Committee implements Cloneable,Nameable,Serializable {
         return typeOfDegree;
     }
 
-    public ArrayList<Lecturer> getLecturers() {
+    public HashSet<Lecturer> getLecturers() {
         return lecturers;
-    }
+    } //FIX - change to hash set
 
     public Lecturer getHeadOfCommittee() {
         return headOfCommittee;
@@ -40,7 +40,7 @@ public class Committee implements Cloneable,Nameable,Serializable {
         this.typeOfDegree = typeOfDegree;
     }
 
-    public void setLecturers(ArrayList<Lecturer> lecturers) {
+    public void setLecturers(HashSet<Lecturer> lecturers) {
         this.lecturers = lecturers;
     }
 
@@ -69,14 +69,15 @@ public class Committee implements Cloneable,Nameable,Serializable {
     }
 
     //makes a shallow copy of the lecturers array for the clone action
-    public void CopyArray(ArrayList<Lecturer> lecturers){
+    public void CopyHashSet(HashSet<Lecturer> lecturers){
         if (lecturers != null && !lecturers.isEmpty()) {
-            this.lecturers = new ArrayList<>(lecturers.size());
-            for (int i = 0; i < lecturers.size(); i++) {
-                this.lecturers.add(lecturers.get(i));
+            this.lecturers = new HashSet<>(lecturers.size());
+            //FIX:Made a foreach loop
+            for (Lecturer lecturer : lecturers) {
+                this.lecturers.add(lecturer);
             }
         } else {
-            this.lecturers = new ArrayList<>(1);
+            this.lecturers = new HashSet<>(1);
         }
     }
 

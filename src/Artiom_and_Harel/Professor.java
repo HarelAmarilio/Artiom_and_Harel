@@ -1,13 +1,13 @@
 package Artiom_and_Harel;
 import java.io.Serializable;
 import java.security.SecureRandomParameters;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Professor extends Doctor implements Serializable {
     private String title;
-    public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department, int numberOfArticle, ArrayList <String> articles, String title) {
-        super(fullName,ID,degreeType, degreeName, salary,department,numberOfArticle,articles);
+    public Professor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department, int numberOfArticle, HashSet <String> articles, String title) {
+        super(fullName,ID,degreeType, degreeName, salary,department,articles);
         this.title = title;
     }
 
