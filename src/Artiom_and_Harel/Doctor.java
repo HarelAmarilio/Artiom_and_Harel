@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 //FIX: deleted the num of articles
-public class Doctor extends Lecturer implements Comparable<Doctor>,Serializable{
+public class Doctor extends Lecturer implements ArticlePublisher, Comparable<Doctor>,Serializable{
     protected HashSet <String> articles;
     public Doctor(String fullName, int ID, DgreeNames degreeType, String degreeName, double salary, String department,HashSet <String> articles) {
         super(fullName, ID, degreeType, degreeName, salary, department);
@@ -16,7 +16,7 @@ public class Doctor extends Lecturer implements Comparable<Doctor>,Serializable{
     public HashSet<String> getArticles() {
         return articles;
     }
-
+@Override
     public int getNumberOfArticles() {
         return this.articles.size();
     }

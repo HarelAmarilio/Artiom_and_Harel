@@ -2,7 +2,7 @@ package Artiom_and_Harel;
 import java.util.HashSet;
 import java.util.Objects;
 import java.io.Serializable;
-public class Lecturer implements Nameable, Serializable {
+public class Lecturer implements Nameable, Payable, Serializable{
     protected String FullName;
     protected int ID;
     protected DgreeNames DegreeType;
