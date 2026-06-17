@@ -13,7 +13,7 @@ public class CollegeUI {
     private Map<Integer, Command> menuCommands;
     private Map<DgreeNames, LecturerFactory> factories;
     private CollegeRepository repository;
-    public CollegeUI() {
+    public CollegeUI(CollegeRepository repository) {
         this.repository = repository;
         this.scan = new Scanner(System.in);
         loadData();
